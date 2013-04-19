@@ -1,7 +1,7 @@
 <?php
 // Prevent loading this file directly
 defined('ABSPATH') || exit ;
-require_once 'hkm-reference.php';
+require_once 'hkm_refernx.php';
 if (!class_exists('HKM_extRef')) {
 	// HKMhelper Class
 	class HKM_extRef extends HKM_refernx {

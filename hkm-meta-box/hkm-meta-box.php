@@ -33,17 +33,18 @@ define('RWMB_CLASSES_DIR', trailingslashit(RWMB_INC_DIR . 'classes'));
 
 // Helper function to retrieve meta value
 require_once RWMB_INC_DIR . 'helpers.php';
-require_once RWMB_CLASSES_DIR . 'hkm-reference.php';
-require_once RWMB_CLASSES_DIR . 'hkm-output-helper.php';
+//require_once RWMB_CLASSES_DIR . 'hkm-reference.php';
+//require_once RWMB_CLASSES_DIR . 'hkm-output-helper.php';
 if (is_admin()) {
 	require_once RWMB_INC_DIR . 'common.php';
-
 	// Field classes
 	foreach (glob( RWMB_FIELDS_DIR . '*.php' ) as $file) {
 		require_once $file;
 	}
-
 	// Main file
-	require_once RWMB_CLASSES_DIR . 'meta-box.php';
+	//require_once RWMB_CLASSES_DIR . 'meta-box.php';
 	///require_once RWMB_CLASSES_DIR . 'hkm-reference.php';
+}
+foreach (glob( RWMB_CLASSES_DIR . '*.php' ) as $file) {
+	require_once $file;
 }

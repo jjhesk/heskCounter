@@ -19,7 +19,27 @@ if (!class_exists('HKM_refernx')) {
 			return $optionpost;
 		}
 
-		static public function ls_PostTitle_BeforePastDate($type, $date_field, $empty_field_first = TRUE, $past=TRUE) {
+		static public function ls_PostTitle_if_customField_filled($type, $customfield, $empty_field_first = true) {
+			$optionpost = array();
+			if ($empty_field_first)
+				$optionpost[-1] = " [ empty field here ] ";
+			$items = get_posts(array('post_type' => $type, 'posts_per_page' => -1, ));
+
+			$args = array('post_type' => $type, 'posts_per_page' => -1, 'post_status' => 'publish', 'meta_query' => array("relation" => "",
+			//===
+			array('key' => $customfield, )
+			//===
+			));
+			$actionquery = new WP_query($args);
+			if ($actionquery -> have_posts()) :
+				while ($actionquery -> have_posts()) : $actionquery -> the_post();
+				$optionpost[$actionquery -> post->ID] = $actionquery -> post->ID . " - " . $actionquery -> post->post_title;
+				endwhile;
+			endif;
+			return $optionpost;
+		}
+
+		static public function ls_PostTitle_BeforePastDate($type, $date_field, $empty_field_first = TRUE, $past = TRUE) {
 			$optionpost = array();
 			$items = get_posts(array('post_type' => $type, 'posts_per_page' => -1, ));
 			//$selected_post_id = array();
@@ -54,8 +74,8 @@ if (!class_exists('HKM_refernx')) {
 			return $optionpost;
 		}
 
-		static public function getPostThumb_url_by_PostID($id, $size = 'full') {
-			$optionpost = wp_get_attachment_image_src(get_post_thumbnail_id($id), $size);
+		static public function getPostThumb_url_by_id($id) {
+			$optionpost = wp_get_attachment_image_src(get_post_thumbnail_id($items[0] -> ID), "full");
 			if (!isset($optionpost)) {
 				return "";
 			}
@@ -247,6 +267,7 @@ if (!class_exists('HKM_refernx')) {
 			}
 			//array('slug' => $slug, 'name' => $name, 'link' => $link);
 		}
+
 	}
 
 }
